@@ -17,46 +17,39 @@ import { toast } from "sonner";
 type UploadStatus = "idle" | "uploading" | "done";
 
 // ─────────────────────────────────────
-// PRO 解锁弹窗（黑金礼盒风格）—「选择照片上传」按钮触发
+// 定价方案选择弹窗 —「选择照片上传」按钮触发
 // ─────────────────────────────────────
 function ProUpgradeModal({ visible, onClose, onConfirm }: {
   visible: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }) {
-  const [shimmer, setShimmer] = useState(false);
-  useEffect(() => {
-    if (!visible) return;
-    const t = setInterval(() => {
-      setShimmer(true);
-      setTimeout(() => setShimmer(false), 700);
-    }, 2800);
-    return () => clearInterval(t);
-  }, [visible]);
-
   if (!visible) return null;
+
+  const CheckIcon = ({ active }: { active?: boolean }) => (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+      <path d="M2 7L5.5 10.5L12 3" stroke={active ? "#07C160" : "#BBBBBB"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
 
   return (
     <div
       className="absolute inset-0 z-[80] flex items-center justify-center"
       style={{
-        background: "rgba(0,0,0,0.62)",
+        background: "rgba(0,0,0,0.55)",
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
       }}
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col items-center"
+        className="relative flex flex-col"
         style={{
-          width: "320px",
+          width: "340px",
           background: "#FFFFFF",
           borderRadius: "24px",
-          paddingTop: "64px",
-          paddingBottom: "28px",
-          paddingLeft: "20px",
-          paddingRight: "20px",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.28)",
+          padding: "28px 20px 20px",
+          boxShadow: "0 24px 64px rgba(0,0,0,0.22)",
           animation: "modalIn 0.32s cubic-bezier(0.34,1.56,0.64,1)",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -65,83 +58,82 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
         <button
           onClick={onClose}
           className="absolute flex items-center justify-center active:opacity-50 transition-opacity"
-          style={{ top: "14px", right: "14px", width: "28px", height: "28px", borderRadius: "50%", background: "#F2F2F2" }}
+          style={{ top: "14px", right: "14px", width: "30px", height: "30px", borderRadius: "50%", background: "#F2F2F2" }}
         >
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
             <path d="M2 2l8 8M10 2L2 10" stroke="#8A8A8A" strokeWidth="1.6" strokeLinecap="round"/>
           </svg>
         </button>
 
-        {/* 3D 礼盒图标（突破顶部边界） */}
-        <div
-          className="absolute flex items-center justify-center"
-          style={{
-            top: "-44px",
-            width: "92px",
-            height: "92px",
-            borderRadius: "28px",
-            background: "linear-gradient(145deg, #1A1A1A 0%, #2C2C2C 100%)",
-            boxShadow: "0 12px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.12)",
-          }}
-        >
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-            <rect x="8" y="24" width="36" height="22" rx="3" fill="#C9A84C"/>
-            <rect x="8" y="24" width="36" height="22" rx="3" fill="url(#boxGrad2)"/>
-            <rect x="6" y="17" width="40" height="9" rx="3" fill="#E8C060"/>
-            <rect x="6" y="17" width="40" height="9" rx="3" fill="url(#lidGrad2)"/>
-            <rect x="23" y="17" width="6" height="29" rx="1.5" fill="#FF6B6B" opacity="0.9"/>
-            <rect x="6" y="20" width="40" height="6" rx="1.5" fill="#FF6B6B" opacity="0.9"/>
-            <path d="M26 17C26 17 18 12 16 8C15 6 17 4 19 5C21 6 22 10 26 17Z" fill="#FF8E8E"/>
-            <path d="M26 17C26 17 34 12 36 8C37 6 35 4 33 5C31 6 30 10 26 17Z" fill="#FF8E8E"/>
-            <ellipse cx="34" cy="21" rx="4" ry="1.5" fill="rgba(255,255,255,0.28)" transform="rotate(-15 34 21)"/>
-            <defs>
-              <linearGradient id="boxGrad2" x1="8" y1="24" x2="44" y2="46" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.18)"/>
-                <stop offset="100%" stopColor="rgba(0,0,0,0.12)"/>
-              </linearGradient>
-              <linearGradient id="lidGrad2" x1="6" y1="17" x2="46" y2="26" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.32)"/>
-                <stop offset="100%" stopColor="rgba(0,0,0,0.08)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div className="absolute" style={{ top: "6px", right: "8px", width: "6px", height: "6px", borderRadius: "50%", background: "rgba(255,220,80,0.7)", boxShadow: "0 0 8px 3px rgba(255,220,80,0.5)" }} />
-          <div className="absolute" style={{ bottom: "8px", left: "10px", width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,200,60,0.5)", boxShadow: "0 0 6px 2px rgba(255,200,60,0.4)" }} />
-        </div>
-
-        {/* 主标题 */}
-        <p className="text-center font-black" style={{ fontSize: "20px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", letterSpacing: "-0.3px", lineHeight: "1.3", marginBottom: "8px" }}>
-          恭喜解锁 PRO 专属特权
-        </p>
-        <p className="text-center" style={{ fontSize: "13px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif", lineHeight: "1.6", marginBottom: "18px" }}>
-          为新朋友准备了 7 天高奢交付体验，<br/>快去惊艳你的客户吧。
+        {/* 标题 */}
+        <p className="text-center font-bold" style={{ fontSize: "19px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", marginBottom: "20px" }}>
+          选择适合您的专业方案
         </p>
 
-        {/* 特权列表卡片 */}
-        <div className="w-full" style={{ background: "#E6F9F0", borderRadius: "14px", padding: "14px 16px", marginBottom: "20px" }}>
-          {["4K 原图无损交付", "每日 500 张极速专线上传", "解锁自定义高奢相册封面"].map((item, i) => (
-            <div key={i} className="flex items-center gap-3" style={{ paddingTop: i === 0 ? 0 : "10px" }}>
-              <div className="shrink-0 flex items-center justify-center" style={{ width: "20px", height: "20px", borderRadius: "50%", background: "#07C160" }}>
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                  <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>{item}</span>
+        {/* 两列方案卡片 */}
+        <div className="flex gap-3" style={{ marginBottom: "12px" }}>
+          {/* 标准版 */}
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+            <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500, marginBottom: "8px" }}>标准版</span>
+            <div className="flex items-baseline" style={{ marginBottom: "2px" }}>
+              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
+              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>99</span>
+              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
-          ))}
+            <span style={{ fontSize: "11px", color: "#BBBBBB", textDecoration: "line-through", marginBottom: "12px" }}>¥129/年</span>
+            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+              {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckIcon active={false} />
+                  <span style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onClose}
+              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+              style={{ height: "42px", borderRadius: "10px", background: "#E6F9F0", border: "none" }}
+            >
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#07C160", fontFamily: "'Noto Sans SC', sans-serif" }}>购买标准版</span>
+            </button>
+          </div>
+
+          {/* 满足版 */}
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+            <div className="flex items-center gap-1" style={{ marginBottom: "8px" }}>
+              <span style={{ fontSize: "16px" }}>🔥</span>
+              <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>满足版</span>
+            </div>
+            <div className="flex items-baseline" style={{ marginBottom: "14px" }}>
+              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
+              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>599</span>
+              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
+            </div>
+            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+              {["每日 500 张照片", "30 天保存", "原图交付"].map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckIcon active={true} />
+                  <span style={{ fontSize: "12px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onConfirm}
+              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+              style={{ height: "42px", borderRadius: "10px", background: "#07C160", border: "none" }}
+            >
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>购买满足版</span>
+            </button>
+          </div>
         </div>
 
-        {/* 主 CTA 按钮 */}
+        {/* 底部免费试用按钮 */}
         <button
           onClick={onConfirm}
-          className="w-full flex items-center justify-center relative overflow-hidden active:scale-[0.97] transition-transform"
-          style={{ height: "50px", borderRadius: "999px", background: "linear-gradient(135deg, #07C160 0%, #05A050 100%)", boxShadow: "0 6px 20px rgba(7,193,96,0.40)", marginBottom: "14px" }}
+          className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+          style={{ height: "52px", borderRadius: "14px", background: "#FFFFFF", border: "1.5px solid #E8E8E8" }}
         >
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.38) 50%, transparent 65%)", transform: shimmer ? "translateX(200%)" : "translateX(-200%)", transition: shimmer ? "transform 0.65s ease" : "none" }} />
-          <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif", letterSpacing: "0.04em", position: "relative", zIndex: 1 }}>立即开启免费体验</span>
-        </button>
-        <button onClick={onClose} className="active:opacity-50 transition-opacity" style={{ fontSize: "12px", color: "#BBBBBB", fontFamily: "'Noto Sans SC', sans-serif" }}>
-          跳过试用，直接购买正式版 ＞
+          <span style={{ fontSize: "15px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif" }}>先开启 7 天免费试用（标准版）</span>
         </button>
       </div>
       <style>{`
