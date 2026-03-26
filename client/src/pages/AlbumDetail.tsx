@@ -1288,9 +1288,7 @@ export default function AlbumDetail() {
 
               <div className="w-full space-y-2.5">
                 {[
-                  "支持 JPG 格式，单张最大 20MB",
-                  "因微信限制，建议每次上传照片在 20 张以内",
-                  "上传过程中请保持网络连接稳定，建议使用 WiFi",
+                  "支持 JPG 格式，单张最大 100MB",
                 ].map((tip, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <span className="shrink-0 mt-[3px] text-[#C8C8C8] text-[10px]">·</span>
