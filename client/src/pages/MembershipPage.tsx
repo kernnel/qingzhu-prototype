@@ -223,7 +223,7 @@ export default function MembershipPage() {
           }}
         >
           <span style={{ fontSize: "15px", color: "#3A3A3A" }}>
-            先开启 7 天免费试用（标准版）
+            开启 7 天免费试用（标准版）
           </span>
         </button>
       </div>
