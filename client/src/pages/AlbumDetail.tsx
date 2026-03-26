@@ -147,178 +147,280 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
 }
 
 // ─────────────────────────────────────
-// 上传限额告知弹窗（冷静克制）—「继续上传」按钮触发
+// 上传限额两步走弹窗 —「继续上传」按钮触发
+// Step 1: 极简阻断弹窗  Step 2: 沉浸式方案引导
 // ─────────────────────────────────────
 function UploadLimitModal({ visible, onClose, onConfirm }: {
   visible: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }) {
+  const [step, setStep] = useState<1 | 2>(1);
+
+  // 每次弹窗打开时重置到 Step 1
+  useEffect(() => {
+    if (visible) setStep(1);
+  }, [visible]);
+
   if (!visible) return null;
+
+  // 共用动画样式
+  const overlayStyle: React.CSSProperties = {
+    background: "rgba(0,0,0,0.50)",
+    backdropFilter: "blur(8px)",
+    WebkitBackdropFilter: "blur(8px)",
+  };
+
+  // ─────────────────────────────────────
+  // Step 1: 极简阻断弹窗
+  // ─────────────────────────────────────
+  if (step === 1) {
+    return (
+      <div
+        className="absolute inset-0 z-[80] flex items-center justify-center"
+        style={overlayStyle}
+        onClick={onClose}
+      >
+        <div
+          className="relative flex flex-col items-center"
+          style={{
+            width: "288px",
+            background: "#FFFFFF",
+            borderRadius: "24px",
+            padding: "32px 24px 24px",
+            boxShadow: "0 20px 56px rgba(0,0,0,0.14)",
+            animation: "limitModalIn 0.28s cubic-bezier(0.34,1.4,0.64,1)",
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* 容量满图标 */}
+          <div
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "16px",
+              background: "#F5F5F5",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "18px",
+            }}
+          >
+            {/* 水杆容量满图标 */}
+            <svg width="30" height="36" viewBox="0 0 30 36" fill="none">
+              {/* 杆体 */}
+              <rect x="5" y="6" width="20" height="26" rx="4" stroke="#AAAAAA" strokeWidth="1.8" fill="none"/>
+              {/* 盖子 */}
+              <rect x="9" y="2" width="12" height="5" rx="2" stroke="#AAAAAA" strokeWidth="1.8" fill="none"/>
+              {/* 渴满填充 */}
+              <rect x="7.5" y="19" width="15" height="11" rx="2" fill="#DDDDDD"/>
+              {/* 警示线 */}
+              <line x1="5" y1="19" x2="25" y2="19" stroke="#AAAAAA" strokeWidth="1.4" strokeDasharray="2 2"/>
+            </svg>
+          </div>
+
+          {/* 主标题 */}
+          <p
+            style={{
+              fontSize: "17px",
+              fontWeight: 700,
+              color: "#1A1A1A",
+              fontFamily: "'Noto Sans SC', sans-serif",
+              letterSpacing: "-0.2px",
+              lineHeight: "1.3",
+              marginBottom: "8px",
+              textAlign: "center",
+            }}
+          >
+            今日上传额度已满
+          </p>
+
+          {/* 副标题 */}
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#8A8A8A",
+              fontFamily: "'Noto Sans SC', sans-serif",
+              lineHeight: "1.7",
+              marginBottom: "24px",
+              textAlign: "center",
+            }}
+          >
+            当前标准版限传 200 张/日，请明日再试，<br/>或升级解锁更大额度。
+          </p>
+
+          {/* 双按钮操作区 */}
+          <div className="flex gap-3 w-full">
+            {/* 左侧：次操作 */}
+            <button
+              onClick={onClose}
+              className="flex-1 flex items-center justify-center active:opacity-70 transition-opacity"
+              style={{
+                height: "46px",
+                borderRadius: "12px",
+                background: "#F2F2F2",
+                border: "none",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  color: "#555555",
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                }}
+              >
+                我知道了
+              </span>
+            </button>
+            {/* 右侧：主操作 */}
+            <button
+              onClick={() => setStep(2)}
+              className="flex-1 flex items-center justify-center active:opacity-90 transition-opacity"
+              style={{
+                height: "46px",
+                borderRadius: "12px",
+                background: "#07C160",
+                border: "none",
+                boxShadow: "0 4px 14px rgba(7,193,96,0.32)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "15px",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                }}
+              >
+                获取更多额度
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes limitModalIn {
+            from { opacity: 0; transform: scale(0.92) translateY(12px); }
+            to   { opacity: 1; transform: scale(1)   translateY(0); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // ─────────────────────────────────────
+  // Step 2: 沉浸式方案引导
+  // ─────────────────────────────────────
+  const CheckIcon = ({ active }: { active?: boolean }) => (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+      <path d="M2 7L5.5 10.5L12 3" stroke={active ? "#07C160" : "#BBBBBB"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
 
   return (
     <div
       className="absolute inset-0 z-[80] flex items-center justify-center"
-      style={{
-        background: "rgba(0,0,0,0.45)",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
-      }}
+      style={overlayStyle}
       onClick={onClose}
     >
-      {/* 弹窗卡片 */}
       <div
-        className="relative flex flex-col items-center"
+        className="relative flex flex-col"
         style={{
-          width: "320px",
+          width: "340px",
           background: "#FFFFFF",
-          borderRadius: "20px",
-          paddingTop: "32px",
-          paddingBottom: "24px",
-          paddingLeft: "24px",
-          paddingRight: "24px",
-          boxShadow: "0 16px 48px rgba(0,0,0,0.16)",
-          animation: "modalIn 0.28s cubic-bezier(0.34,1.4,0.64,1)",
+          borderRadius: "24px",
+          padding: "28px 20px 20px",
+          boxShadow: "0 24px 64px rgba(0,0,0,0.22)",
+          animation: "limitModalIn 0.30s cubic-bezier(0.34,1.4,0.64,1)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ── 关闭按钮 ── */}
+        {/* 关闭按钮 */}
         <button
           onClick={onClose}
           className="absolute flex items-center justify-center active:opacity-50 transition-opacity"
-          style={{
-            top: "14px",
-            right: "14px",
-            width: "26px",
-            height: "26px",
-            borderRadius: "50%",
-            background: "#F2F2F2",
-          }}
+          style={{ top: "14px", right: "14px", width: "30px", height: "30px", borderRadius: "50%", background: "#F2F2F2" }}
         >
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
             <path d="M2 2l8 8M10 2L2 10" stroke="#8A8A8A" strokeWidth="1.6" strokeLinecap="round"/>
           </svg>
         </button>
 
-        {/* ── 中性云朵图标 ── */}
-        <div
-          style={{
-            width: "64px",
-            height: "64px",
-            borderRadius: "18px",
-            background: "#F5F5F5",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
-            {/* 云朵主体 */}
-            <path
-              d="M28 22H9a7 7 0 1 1 1.42-13.86A9 9 0 0 1 28 14a6 6 0 0 1 0 8Z"
-              stroke="#666666"
-              strokeWidth="1.8"
-              strokeLinejoin="round"
-              fill="none"
-            />
-            {/* 上传箭头（向上） */}
-            <path
-              d="M18 20v-7M15 16l3-3 3 3"
-              stroke="#666666"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-
-        {/* ── 主标题 ── */}
-        <p
-          style={{
-            fontSize: "18px",
-            fontWeight: 700,
-            color: "#1A1A1A",
-            fontFamily: "'Noto Sans SC', sans-serif",
-            letterSpacing: "-0.2px",
-            lineHeight: "1.3",
-            marginBottom: "10px",
-            textAlign: "center",
-          }}
-        >
-          今日上传次数已达上限
+        {/* 标题 */}
+        <p className="text-center font-bold" style={{ fontSize: "19px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", marginBottom: "20px" }}>
+          选择适合您的专业方案
         </p>
 
-        {/* ── 副标题 ── */}
-        <p
-          style={{
-            fontSize: "13px",
-            color: "#8A8A8A",
-            fontFamily: "'Noto Sans SC', sans-serif",
-            lineHeight: "1.7",
-            marginBottom: "20px",
-            textAlign: "center",
-          }}
-        >
-          当前标准版每日限传 200 张照片，<br/>请明日再试。
-        </p>
-
-        {/* ── 幽灵升单入口（极度弱化） ── */}
-        <div
-          style={{
-            width: "100%",
-            background: "#F7F8FA",
-            borderRadius: "12px",
-            padding: "12px 14px",
-            marginBottom: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            cursor: "pointer",
-          }}
-          onClick={() => { onClose(); onConfirm(); }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "14px" }}>👑</span>
-            <span
-              style={{
-                fontSize: "13px",
-                color: "#555555",
-                fontFamily: "'Noto Sans SC', sans-serif",
-              }}
+        {/* 两列方案卡片 */}
+        <div className="flex gap-3" style={{ marginBottom: "12px" }}>
+          {/* 标准版 */}
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+            <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500, marginBottom: "8px" }}>标准版</span>
+            <div className="flex items-baseline" style={{ marginBottom: "2px" }}>
+              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
+              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>99</span>
+              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
+            </div>
+            <span style={{ fontSize: "11px", color: "#BBBBBB", textDecoration: "line-through", marginBottom: "12px" }}>¥129/年</span>
+            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+              {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckIcon active={false} />
+                  <span style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onClose}
+              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+              style={{ height: "42px", borderRadius: "10px", background: "#E6F9F0", border: "none" }}
             >
-              升级满足版，解锁每日 500 张超大额度
-            </span>
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#07C160", fontFamily: "'Noto Sans SC', sans-serif" }}>购买标准版</span>
+            </button>
           </div>
-          <span style={{ fontSize: "13px", color: "#07C160", fontWeight: 500 }}>＞</span>
+
+          {/* 满足版 */}
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+            <div className="flex items-center gap-1" style={{ marginBottom: "8px" }}>
+              <span style={{ fontSize: "16px" }}>🔥</span>
+              <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>满足版</span>
+            </div>
+            <div className="flex items-baseline" style={{ marginBottom: "14px" }}>
+              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
+              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>599</span>
+              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
+            </div>
+            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+              {["每日 500 张照片", "30 天保存", "原图交付"].map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <CheckIcon active={true} />
+                  <span style={{ fontSize: "12px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onConfirm}
+              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+              style={{ height: "42px", borderRadius: "10px", background: "#07C160", border: "none" }}
+            >
+              <span style={{ fontSize: "14px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>购买满足版</span>
+            </button>
+          </div>
         </div>
 
-        {/* ── 主操作按钮（灰色·无压迫感） ── */}
+        {/* 底部免费试用按钮 */}
         <button
-          onClick={onClose}
-          className="w-full flex items-center justify-center active:opacity-70 transition-opacity"
-          style={{
-            height: "48px",
-            borderRadius: "12px",
-            background: "#F2F2F2",
-            border: "none",
-          }}
+          onClick={onConfirm}
+          className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
+          style={{ height: "52px", borderRadius: "14px", background: "#FFFFFF", border: "1.5px solid #E8E8E8" }}
         >
-          <span
-            style={{
-              fontSize: "16px",
-              fontWeight: 500,
-              color: "#3A3A3A",
-              fontFamily: "'Noto Sans SC', sans-serif",
-            }}
-          >
-            我知道了
-          </span>
+          <span style={{ fontSize: "15px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif" }}>先开启 7 天免费试用（标准版）</span>
         </button>
       </div>
 
       <style>{`
-        @keyframes modalIn {
+        @keyframes limitModalIn {
           from { opacity: 0; transform: scale(0.92) translateY(12px); }
           to   { opacity: 1; transform: scale(1)   translateY(0); }
         }
