@@ -148,7 +148,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
 
 // ─────────────────────────────────────
 // 上传限额两步走弹窗 —「继续上传」按钮触发
-// Step 1: 极简阻断弹窗  Step 2: 沉浸式方案引导
+// Step 1: 极简阻断弹窗  |  Step 2: 底部升起权益引导 Sheet
 // ─────────────────────────────────────
 function UploadLimitModal({ visible, onClose, onConfirm }: {
   visible: boolean;
@@ -164,7 +164,6 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
 
   if (!visible) return null;
 
-  // 共用动画样式
   const overlayStyle: React.CSSProperties = {
     background: "rgba(0,0,0,0.50)",
     backdropFilter: "blur(8px)",
@@ -172,7 +171,7 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
   };
 
   // ─────────────────────────────────────
-  // Step 1: 极简阻断弹窗
+  // Step 1: 极简阻断弹窗（参考截图1）
   // ─────────────────────────────────────
   if (step === 1) {
     return (
@@ -184,51 +183,60 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
         <div
           className="relative flex flex-col items-center"
           style={{
-            width: "288px",
+            width: "280px",
             background: "#FFFFFF",
-            borderRadius: "24px",
-            padding: "32px 24px 24px",
+            borderRadius: "28px",
+            padding: "36px 24px 24px",
             boxShadow: "0 20px 56px rgba(0,0,0,0.14)",
             animation: "limitModalIn 0.28s cubic-bezier(0.34,1.4,0.64,1)",
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* 容量满图标 */}
+          {/* 水杯容量满图标 */}
           <div
             style={{
-              width: "60px",
-              height: "60px",
-              borderRadius: "16px",
-              background: "#F5F5F5",
+              width: "68px",
+              height: "68px",
+              borderRadius: "18px",
+              background: "#F2F2F2",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: "18px",
+              marginBottom: "22px",
             }}
           >
-            {/* 水杆容量满图标 */}
-            <svg width="30" height="36" viewBox="0 0 30 36" fill="none">
-              {/* 杆体 */}
-              <rect x="5" y="6" width="20" height="26" rx="4" stroke="#AAAAAA" strokeWidth="1.8" fill="none"/>
-              {/* 盖子 */}
-              <rect x="9" y="2" width="12" height="5" rx="2" stroke="#AAAAAA" strokeWidth="1.8" fill="none"/>
-              {/* 渴满填充 */}
-              <rect x="7.5" y="19" width="15" height="11" rx="2" fill="#DDDDDD"/>
-              {/* 警示线 */}
-              <line x1="5" y1="19" x2="25" y2="19" stroke="#AAAAAA" strokeWidth="1.4" strokeDasharray="2 2"/>
+            {/* 水杯 SVG：宽口杯形，底部充满，中部有分界线 */}
+            <svg width="32" height="38" viewBox="0 0 32 38" fill="none">
+              {/* 杯身轮廓：上宽下窄的梯形 */}
+              <path
+                d="M4 6 L6 34 Q6 36 8 36 L24 36 Q26 36 26 34 L28 6 Z"
+                stroke="#AAAAAA"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+                fill="none"
+              />
+              {/* 杯口横线 */}
+              <line x1="3" y1="6" x2="29" y2="6" stroke="#AAAAAA" strokeWidth="1.8" strokeLinecap="round"/>
+              {/* 充满内容（占杯子下半部分） */}
+              <path
+                d="M8.2 20 L9.8 34 Q9.8 35 11 35 L21 35 Q22.2 35 22.2 34 L23.8 20 Z"
+                fill="#CCCCCC"
+              />
+              {/* 分界虚线 */}
+              <line x1="7.5" y1="20" x2="24.5" y2="20" stroke="#AAAAAA" strokeWidth="1.2" strokeDasharray="2.5 2"/>
             </svg>
           </div>
 
           {/* 主标题 */}
           <p
             style={{
-              fontSize: "17px",
+              fontSize: "18px",
               fontWeight: 700,
               color: "#1A1A1A",
               fontFamily: "'Noto Sans SC', sans-serif",
-              letterSpacing: "-0.2px",
+              letterSpacing: "-0.3px",
               lineHeight: "1.3",
-              marginBottom: "8px",
+              marginBottom: "10px",
               textAlign: "center",
             }}
           >
@@ -241,59 +249,43 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
               fontSize: "13px",
               color: "#8A8A8A",
               fontFamily: "'Noto Sans SC', sans-serif",
-              lineHeight: "1.7",
-              marginBottom: "24px",
+              lineHeight: "1.8",
+              marginBottom: "28px",
               textAlign: "center",
             }}
           >
-            当前标准版限传 200 张/日，请明日再试，<br/>或升级解锁更大额度。
+            当前标准版限传 200 张/日，<br/>请明日再试，或升级解锁更大额度。
           </p>
 
-          {/* 双按钮操作区 */}
+          {/* 左右双按钮 */}
           <div className="flex gap-3 w-full">
-            {/* 左侧：次操作 */}
             <button
               onClick={onClose}
               className="flex-1 flex items-center justify-center active:opacity-70 transition-opacity"
               style={{
-                height: "46px",
-                borderRadius: "12px",
+                height: "50px",
+                borderRadius: "14px",
                 background: "#F2F2F2",
                 border: "none",
               }}
             >
-              <span
-                style={{
-                  fontSize: "15px",
-                  fontWeight: 500,
-                  color: "#555555",
-                  fontFamily: "'Noto Sans SC', sans-serif",
-                }}
-              >
+              <span style={{ fontSize: "15px", fontWeight: 500, color: "#555555", fontFamily: "'Noto Sans SC', sans-serif" }}>
                 我知道了
               </span>
             </button>
-            {/* 右侧：主操作 */}
             <button
               onClick={() => setStep(2)}
               className="flex-1 flex items-center justify-center active:opacity-90 transition-opacity"
               style={{
-                height: "46px",
-                borderRadius: "12px",
+                height: "50px",
+                borderRadius: "14px",
                 background: "#07C160",
                 border: "none",
-                boxShadow: "0 4px 14px rgba(7,193,96,0.32)",
+                boxShadow: "0 4px 16px rgba(7,193,96,0.38)",
               }}
             >
-              <span
-                style={{
-                  fontSize: "15px",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  fontFamily: "'Noto Sans SC', sans-serif",
-                }}
-              >
-                获取更多额度
+              <span style={{ fontSize: "15px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>
+                升级满足版
               </span>
             </button>
           </div>
@@ -301,7 +293,7 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
 
         <style>{`
           @keyframes limitModalIn {
-            from { opacity: 0; transform: scale(0.92) translateY(12px); }
+            from { opacity: 0; transform: scale(0.93) translateY(10px); }
             to   { opacity: 1; transform: scale(1)   translateY(0); }
           }
         `}</style>
@@ -310,119 +302,143 @@ function UploadLimitModal({ visible, onClose, onConfirm }: {
   }
 
   // ─────────────────────────────────────
-  // Step 2: 沉浸式方案引导
+  // Step 2: 底部升起 Sheet — 升级尊享权益（参考截图2）
   // ─────────────────────────────────────
-  const CheckIcon = ({ active }: { active?: boolean }) => (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <path d="M2 7L5.5 10.5L12 3" stroke={active ? "#07C160" : "#BBBBBB"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
+  const benefits = [
+    {
+      icon: (
+        // 云+上传箭头图标
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M22 18H8a5 5 0 1 1 1.02-9.9A7 7 0 0 1 22 13a4 4 0 0 1 0 5Z" stroke="#555" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
+          <path d="M14 22v-6M11.5 18.5l2.5-2.5 2.5 2.5" stroke="#555" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: "单日 500 张超大上传额度",
+      desc: "是标准版的 2.5 倍，轻松应对大型拍摄",
+    },
+    {
+      icon: (
+        // 时钟图标
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="9" stroke="#555" strokeWidth="1.6" fill="none"/>
+          <path d="M14 9v5l3 3" stroke="#555" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: "30 天长效保存期限",
+      desc: "标准版仅 7 天，满足版延长至 30 天",
+    },
+    {
+      icon: (
+        // 图片/原图图标
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect x="4" y="6" width="20" height="16" rx="3" stroke="#555" strokeWidth="1.6" fill="none"/>
+          <circle cx="10" cy="12" r="2" stroke="#555" strokeWidth="1.4" fill="none"/>
+          <path d="M4 19l5-4 4 3 3-2.5 8 5.5" stroke="#555" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      title: "4K / 原图无损交付",
+      desc: "每一张照片保留完整像素与色彩信息",
+    },
+  ];
 
   return (
     <div
-      className="absolute inset-0 z-[80] flex items-center justify-center"
+      className="absolute inset-0 z-[80] flex items-end justify-center"
       style={overlayStyle}
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col"
+        className="relative flex flex-col w-full"
         style={{
-          width: "340px",
-          background: "#FFFFFF",
-          borderRadius: "24px",
-          padding: "28px 20px 20px",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.22)",
-          animation: "limitModalIn 0.30s cubic-bezier(0.34,1.4,0.64,1)",
+          background: "#F2F2F2",
+          borderRadius: "28px 28px 0 0",
+          padding: "12px 16px 32px",
+          boxShadow: "0 -8px 40px rgba(0,0,0,0.16)",
+          animation: "sheetUp 0.32s cubic-bezier(0.32,0.72,0,1)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* 拖条 */}
+        <div style={{ width: "36px", height: "4px", borderRadius: "2px", background: "#CCCCCC", margin: "0 auto 16px" }} />
+
         {/* 关闭按钮 */}
         <button
           onClick={onClose}
           className="absolute flex items-center justify-center active:opacity-50 transition-opacity"
-          style={{ top: "14px", right: "14px", width: "30px", height: "30px", borderRadius: "50%", background: "#F2F2F2" }}
+          style={{ top: "16px", right: "16px", width: "30px", height: "30px", borderRadius: "50%", background: "#E4E4E4" }}
         >
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-            <path d="M2 2l8 8M10 2L2 10" stroke="#8A8A8A" strokeWidth="1.6" strokeLinecap="round"/>
+            <path d="M2 2l8 8M10 2L2 10" stroke="#888" strokeWidth="1.6" strokeLinecap="round"/>
           </svg>
         </button>
 
         {/* 标题 */}
-        <p className="text-center font-bold" style={{ fontSize: "19px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", marginBottom: "20px" }}>
-          选择适合您的专业方案
+        <p
+          style={{
+            fontSize: "18px",
+            fontWeight: 700,
+            color: "#1A1A1A",
+            fontFamily: "'Noto Sans SC', sans-serif",
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
+          升级尊享权益
         </p>
 
-        {/* 两列方案卡片 */}
-        <div className="flex gap-3" style={{ marginBottom: "12px" }}>
-          {/* 标准版 */}
-          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
-            <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500, marginBottom: "8px" }}>标准版</span>
-            <div className="flex items-baseline" style={{ marginBottom: "2px" }}>
-              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
-              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>99</span>
-              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
-            </div>
-            <span style={{ fontSize: "11px", color: "#BBBBBB", textDecoration: "line-through", marginBottom: "12px" }}>¥129/年</span>
-            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
-              {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <CheckIcon active={false} />
-                  <span style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif" }}>{item}</span>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={onClose}
-              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "10px", background: "#E6F9F0", border: "none" }}
+        {/* 权益列表 */}
+        <div className="flex flex-col gap-3" style={{ marginBottom: "20px" }}>
+          {benefits.map((b, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-4"
+              style={{
+                background: "#FFFFFF",
+                borderRadius: "16px",
+                padding: "16px 18px",
+              }}
             >
-              <span style={{ fontSize: "14px", fontWeight: 700, color: "#07C160", fontFamily: "'Noto Sans SC', sans-serif" }}>购买标准版</span>
-            </button>
-          </div>
-
-          {/* 满足版 */}
-          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
-            <div className="flex items-center gap-1" style={{ marginBottom: "8px" }}>
-              <span style={{ fontSize: "16px" }}>🔥</span>
-              <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>满足版</span>
+              <div style={{ flexShrink: 0, width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {b.icon}
+              </div>
+              <div>
+                <p style={{ fontSize: "15px", fontWeight: 700, color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", marginBottom: "3px" }}>
+                  {b.title}
+                </p>
+                <p style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif", lineHeight: "1.5" }}>
+                  {b.desc}
+                </p>
+              </div>
             </div>
-            <div className="flex items-baseline" style={{ marginBottom: "14px" }}>
-              <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
-              <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>599</span>
-              <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
-            </div>
-            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
-              {["每日 500 张照片", "30 天保存", "原图交付"].map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <CheckIcon active={true} />
-                  <span style={{ fontSize: "12px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>{item}</span>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={onConfirm}
-              className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "10px", background: "#07C160", border: "none" }}
-            >
-              <span style={{ fontSize: "14px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>购买满足版</span>
-            </button>
-          </div>
+          ))}
         </div>
 
-        {/* 底部免费试用按钮 */}
+        {/* 立即升级按钮 */}
         <button
           onClick={onConfirm}
-          className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-          style={{ height: "52px", borderRadius: "14px", background: "#FFFFFF", border: "1.5px solid #E8E8E8" }}
+          className="w-full flex items-center justify-center active:opacity-90 transition-opacity"
+          style={{
+            height: "54px",
+            borderRadius: "16px",
+            background: "#07C160",
+            border: "none",
+            boxShadow: "0 4px 18px rgba(7,193,96,0.38)",
+          }}
         >
-          <span style={{ fontSize: "15px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif" }}>先开启 7 天免费试用（标准版）</span>
+          <span style={{ fontSize: "16px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif", letterSpacing: "0.02em" }}>
+            立即升级 ¥599/年
+          </span>
         </button>
       </div>
 
       <style>{`
         @keyframes limitModalIn {
-          from { opacity: 0; transform: scale(0.92) translateY(12px); }
+          from { opacity: 0; transform: scale(0.93) translateY(10px); }
           to   { opacity: 1; transform: scale(1)   translateY(0); }
+        }
+        @keyframes sheetUp {
+          from { transform: translateY(100%); }
+          to   { transform: translateY(0); }
         }
       `}</style>
     </div>
