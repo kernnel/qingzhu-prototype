@@ -80,7 +80,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
               <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>99</span>
               <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
-            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+            <div className="flex flex-col gap-2" style={{ flex: 1 }}>
               {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <CheckIcon active={false} />
@@ -91,7 +91,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
             <button
               onClick={onClose}
               className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "8px", background: "#E6F9F0", border: "none" }}
+              style={{ height: "44px", borderRadius: "8px", background: "#E6F9F0", border: "none", marginTop: "14px", flexShrink: 0 }}
             >
               <span style={{ fontSize: "14px", fontWeight: 700, color: "#07C160", fontFamily: "'Noto Sans SC', sans-serif" }}>购买标准版</span>
             </button>
@@ -108,7 +108,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
               <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>599</span>
               <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
-            <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
+            <div className="flex flex-col gap-2" style={{ flex: 1 }}>
               {["每日 500 张照片", "30 天保存", "原图交付"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <CheckIcon active={true} />
@@ -119,7 +119,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
             <button
               onClick={onConfirm}
               className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "8px", background: "#07C160", border: "none" }}
+              style={{ height: "44px", borderRadius: "8px", background: "#07C160", border: "none", marginTop: "14px", flexShrink: 0 }}
             >
               <span style={{ fontSize: "14px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>购买满足版</span>
             </button>
