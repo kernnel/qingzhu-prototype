@@ -313,28 +313,6 @@ export default function ReferFriend() {
 
       </div>
 
-      {/* 底部 Tab Bar */}
-      <div style={{
-        flexShrink: 0, background: "#FFFFFF",
-        borderTop: "0.5px solid rgba(0,0,0,0.08)",
-        display: "flex", alignItems: "center",
-        paddingBottom: "env(safe-area-inset-bottom, 8px)",
-      }}>
-        {[
-          { label: "首页", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5Z" stroke="#B0B0B0" strokeWidth="1.5" /><path d="M9 21V12h6v9" stroke="#B0B0B0" strokeWidth="1.5" strokeLinecap="round" /></svg>, active: false, path: "/" },
-          { label: "相册", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#B0B0B0" strokeWidth="1.5" /><circle cx="8.5" cy="8.5" r="1.5" stroke="#B0B0B0" strokeWidth="1.2" /><path d="M3 16l5-5 4 4 3-3 6 6" stroke="#B0B0B0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>, active: false, path: "/album" },
-          { label: "我的", icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke={GREEN} strokeWidth="1.5" /><path d="M4 20c0-4.418 3.582-7 8-7s8 2.582 8 7" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" /></svg>, active: true, path: "/user-center" },
-        ].map((tab) => (
-          <button key={tab.label} className="flex-1 flex flex-col items-center justify-center active:opacity-60 transition-opacity"
-            style={{ height: "56px", gap: "3px" }}
-            onClick={() => navigate(tab.path)}>
-            {tab.icon}
-            <span style={{ fontSize: "10px", color: tab.active ? GREEN : "#B0B0B0", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: tab.active ? 500 : 400 }}>
-              {tab.label}
-            </span>
-          </button>
-        ))}
-      </div>
       {/* 分享 Bottom Sheet */}
       {showShare && (
         <div
