@@ -47,7 +47,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
         style={{
           width: "340px",
           background: "#FFFFFF",
-          borderRadius: "24px",
+          borderRadius: "12px",
           padding: "28px 20px 20px",
           boxShadow: "0 24px 64px rgba(0,0,0,0.22)",
           animation: "modalIn 0.32s cubic-bezier(0.34,1.56,0.64,1)",
@@ -71,16 +71,15 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
         </p>
 
         {/* 两列方案卡片 */}
-        <div className="flex gap-3" style={{ marginBottom: "12px" }}>
+        <div className="flex gap-1.5" style={{ marginBottom: "12px" }}>
           {/* 标准版 */}
-          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "9px", padding: "16px 14px 14px" }}>
             <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500, marginBottom: "8px" }}>标准版</span>
-            <div className="flex items-baseline" style={{ marginBottom: "2px" }}>
+            <div className="flex items-baseline" style={{ marginBottom: "14px" }}>
               <span style={{ fontSize: "13px", color: "#1A1A1A", fontWeight: 700 }}>¥</span>
               <span style={{ fontSize: "36px", color: "#1A1A1A", fontWeight: 900, lineHeight: 1, fontFamily: "'Noto Sans SC', sans-serif" }}>99</span>
               <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
-            <span style={{ fontSize: "11px", color: "#BBBBBB", textDecoration: "line-through", marginBottom: "12px" }}>¥129/年</span>
             <div className="flex flex-col gap-2" style={{ marginBottom: "16px" }}>
               {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
@@ -92,14 +91,14 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
             <button
               onClick={onClose}
               className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "10px", background: "#E6F9F0", border: "none" }}
+              style={{ height: "42px", borderRadius: "8px", background: "#E6F9F0", border: "none" }}
             >
               <span style={{ fontSize: "14px", fontWeight: 700, color: "#07C160", fontFamily: "'Noto Sans SC', sans-serif" }}>购买标准版</span>
             </button>
           </div>
 
           {/* 满足版 */}
-          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "16px", padding: "16px 14px 14px" }}>
+          <div className="flex flex-col flex-1" style={{ border: "1.5px solid #E8E8E8", borderRadius: "9px", padding: "16px 14px 14px" }}>
             <div className="flex items-center gap-1" style={{ marginBottom: "8px" }}>
               <span style={{ fontSize: "16px" }}>🔥</span>
               <span style={{ fontSize: "14px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>满足版</span>
@@ -120,7 +119,7 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
             <button
               onClick={onConfirm}
               className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-              style={{ height: "42px", borderRadius: "10px", background: "#07C160", border: "none" }}
+              style={{ height: "42px", borderRadius: "8px", background: "#07C160", border: "none" }}
             >
               <span style={{ fontSize: "14px", fontWeight: 700, color: "#FFFFFF", fontFamily: "'Noto Sans SC', sans-serif" }}>购买满足版</span>
             </button>
@@ -131,9 +130,9 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
         <button
           onClick={onConfirm}
           className="w-full flex items-center justify-center active:opacity-80 transition-opacity"
-          style={{ height: "52px", borderRadius: "14px", background: "#FFFFFF", border: "1.5px solid #E8E8E8" }}
+          style={{ height: "34px", borderRadius: "8px", background: "#FFFFFF", border: "1.5px solid #E8E8E8" }}
         >
-          <span style={{ fontSize: "15px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif" }}>先开启 7 天免费试用（标准版）</span>
+          <span style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif" }}>先开启 7 天免费试用（标准版）</span>
         </button>
       </div>
       <style>{`
