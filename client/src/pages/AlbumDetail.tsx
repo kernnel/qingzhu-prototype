@@ -81,10 +81,10 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
               <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
             <div className="flex flex-col gap-2" style={{ flex: 1 }}>
-              {["每日 200 张照片", "7 天保存", "高清交付"].map((item, i) => (
+              {["每日 200 张照片", "7 天保存", "4K / 原图交付"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <CheckIcon active={false} />
-                  <span style={{ fontSize: "12px", color: "#8A8A8A", fontFamily: "'Noto Sans SC', sans-serif" }}>{item}</span>
+                  <span style={{ fontSize: "12px", color: "#555555", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -109,10 +109,10 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
               <span style={{ fontSize: "12px", color: "#8A8A8A", marginLeft: "2px" }}>/年</span>
             </div>
             <div className="flex flex-col gap-2" style={{ flex: 1 }}>
-              {["每日 500 张照片", "30 天保存", "原图交付"].map((item, i) => (
+              {["每日 500 张照片", "30 天保存", "4K / 原图交付"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <CheckIcon active={true} />
-                  <span style={{ fontSize: "12px", color: "#1A1A1A", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 500 }}>{item}</span>
+                  <span style={{ fontSize: "12px", color: "#555555", fontFamily: "'Noto Sans SC', sans-serif", fontWeight: 400 }}>{item}</span>
                 </div>
               ))}
             </div>
