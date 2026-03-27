@@ -34,31 +34,33 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
 
   return (
     <div
-      className="absolute inset-0 z-[80] flex items-center justify-center"
+      className="absolute inset-0 z-[80] flex items-end justify-center"
       style={{
-        background: "rgba(0,0,0,0.55)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
+        background: "rgba(0,0,0,0.50)",
+        backdropFilter: "blur(4px)",
+        WebkitBackdropFilter: "blur(4px)",
       }}
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col"
+        className="relative flex flex-col w-full"
         style={{
-          width: "340px",
           background: "#FFFFFF",
-          borderRadius: "12px",
-          padding: "28px 20px 20px",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.22)",
-          animation: "modalIn 0.32s cubic-bezier(0.34,1.56,0.64,1)",
+          borderRadius: "20px 20px 0 0",
+          padding: "0 16px 32px",
+          boxShadow: "0 -8px 40px rgba(0,0,0,0.18)",
+          animation: "sheetUp 0.36s cubic-bezier(0.32,0.72,0,1)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 关闭按钮 */}
+        {/* 拖拽条 */}
+        <div style={{ width: "36px", height: "4px", borderRadius: "2px", background: "#DDDDDD", margin: "12px auto 20px" }} />
+
+        {/* 关闭按鈕 */}
         <button
           onClick={onClose}
           className="absolute flex items-center justify-center active:opacity-50 transition-opacity"
-          style={{ top: "14px", right: "14px", width: "30px", height: "30px", borderRadius: "50%", background: "#F2F2F2" }}
+          style={{ top: "14px", right: "16px", width: "28px", height: "28px", borderRadius: "50%", background: "#F2F2F2" }}
         >
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
             <path d="M2 2l8 8M10 2L2 10" stroke="#8A8A8A" strokeWidth="1.6" strokeLinecap="round"/>
@@ -136,9 +138,9 @@ function ProUpgradeModal({ visible, onClose, onConfirm }: {
         </button>
       </div>
       <style>{`
-        @keyframes modalIn {
-          from { opacity: 0; transform: scale(0.88) translateY(16px); }
-          to   { opacity: 1; transform: scale(1)   translateY(0); }
+        @keyframes sheetUp {
+          from { transform: translateY(100%); }
+          to   { transform: translateY(0); }
         }
       `}</style>
     </div>
